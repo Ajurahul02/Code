@@ -1,0 +1,93 @@
+<div>
+    <div *ngIf="(errorMessage!='' || successMessage!='')">
+            <div class="error-message text-center font-weight-bold">{{errorMessage}}</div>
+            <div class="success-message text-center font-weight-bold"> {{successMessage}}</div>
+        </div>
+  <div class="text-center table-responsive table-border" *ngIf="displayProducts && productList.length!=0">
+  <h3 class="title">Add Deal Products</h3>
+  
+  <table class="table text-center table table-hover">
+  <thead>
+      <tr>
+          <th style="text-align: center">Image</th>
+          <th style="text-align: center">Product Name</th>
+          <th style="text-align: center">Brand</th>
+          <th style="text-align: center">Price</th>
+          <th style="text-align: center">Discount</th>
+          <th style="text-align: center">Action</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let product of productList | paginate: { itemsPerPage: count , currentPage:p}">
+          <td>    <img [src]="'assets/resources/'+ product.productId+'.jpg'" width="70" height="50" class="img-responsive center-block"
+            alt="Image Not Found" onError="this.src='assets/resources/404.png'">  </td>                                         
+          <!-- <td></td> -->
+          <td>{{product.name}}</td>
+          <td>{{product.brand}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.discount}}</td>
+          
+          <td>
+              <button class="btn-info" (click)='addNewDeal(product)'>Add to deal</button>&nbsp;&nbsp;&nbsp;
+              
+          </td>
+  
+  
+      </tr>
+  </tbody>
+  </table>
+  <div class="text-center">    <pagination-controls (pageChange)="p =$event"></pagination-controls>
+  </div>
+  </div>
+  
+  <div *ngIf="!(displayProducts)">
+  <div class="form-bg-light table-responsive col-md-8 offset-md-2 ">
+    <h3 class="title">Product Details</h3>
+    <form (ngSubmit)="add()" #modifyForm="ngForm">
+        <table class="table">
+          
+            <tr>
+                <th>Deals starts at:</th>
+                <td>
+                    <input type="datetime-local" required class="form-control" [(ngModel)]="deal.dealStartsAt"
+                        name="dealStartsAt" #dealStartsAt="ngModel"/>
+                    <div class=" field-error-message" *ngIf="dealStartsAt.invalid">This field is mandatory
+                     </div>
+                </td>
+             </tr>
+             <tr>
+                <th>Deals ends at:</th>
+                <td>
+                    <input type="datetime-local" required class="form-control" [(ngModel)]="deal.dealsEndsAt"
+                    name="dealsEndsAt" #dealsEndsAt="ngModel"/>
+                  
+                    <div class="field-error-message" *ngIf="dealsEndsAt.invalid">This field is mandatory</div>
+                </td>
+            </tr>
+            <tr>
+                <th>Deal discount:</th>
+                <td>
+                    <input type="number" required class="form-control" min="0" [(ngModel)]="deal.dealDiscount"
+                      name="dealDiscount" #dealDiscount="ngModel"/>
+                    <div class="field-error-message" *ngIf="dealDiscount.invalid"> Discount is mandatory</div>
+                </td>
+            </tr>
+            <tr>
+                <th><button type="submit" (click)="flag='1'" [disabled]="modifyForm.invalid" class="btn btn-success">Submit
+                    </button></th>
+                <td><button type="button" (click)="displayProducts='True'" class="btn btn-warning">Cancel</button></td>
+            </tr>
+  </table>
+  
+  
+  </form>
+  
+  </div>
+  </div>
+  
+  
+  <div *ngIf="(errorMessage!='' || successMessage!='')">
+  <div class="error-message text-center font-weight-bold">{{errorMessage}}</div>
+  <div class="success-message text-center font-weight-bold">{{successMessage}}</div>
+  </div>
+  </div>

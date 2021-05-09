@@ -1,0 +1,167 @@
+<div>  
+    <div *ngIf="(errorMessage!='' || successMessage!='')">
+      <div class="error-message text-center font-weight-bold">{{errorMessage}}</div>
+      <div class="success-message text-center font-weight-bold">{{successMessage}}</div>
+  </div>
+  <div class="text-center table-responsive table-border" *ngIf="displayProducts && dealsProductList.length !=0">
+        <h3 class="title">My Products In Deal</h3>
+  
+  <table class="table text-center table table-responsive">
+    <thead>
+        <tr>
+            <th style="text-align: center">Image</th>
+            <th style="text-align: center">Product Name</th>
+            <th style="text-align: center">Brand</th>
+            <th style="text-align: center">Price</th>
+            <th style="text-align: center">Discount</th>
+            <th style="text-align: center">Deal discount</th>
+            <th style="text-align: center">Starts at</th>
+            <th style="text-align: center">Ends at</th>
+            <!-- <th style="text-align: center">Action</th> -->
+            
+        </tr>
+    </thead>
+    <tbody>
+            <tr *ngFor="let deal of dealsProductList | paginate: { itemsPerPage: count , currentPage:p}  ">
+        
+            <td>    <img [src]="'assets/resources/'+ deal.productDTO.productId+'.jpg'" width="70" height="50" class="img-responsive center-block"
+              alt="Image Not Found" onError="this.src='assets/resources/404.png'">  </td>                                         
+            <td><a class="nav-link" (click)=" selectedProductDetails(deal)">{{deal.productDTO.name}}</a></td>
+            <td>{{deal.productDTO.brand}}</td>
+            <td>{{deal.productDTO.price}}</td>
+            <td>{{deal.productDTO.discount}}</td>
+            <td>{{deal.dealDiscount}}</td>
+            <td>{{deal.dealStartsAt[2]+"-"+deal.dealStartsAt[1]+"-"+deal.dealStartsAt[0]+","+deal.dealStartsAt[3]+":"+deal.dealStartsAt[4]+":"+00}}</td>
+            <td>{{deal.dealsEndsAt[2]+"-"+deal.dealsEndsAt[1]+"-"+deal.dealsEndsAt[0]+","+deal.dealsEndsAt[3]+":"+deal.dealsEndsAt[4]+":"+00}}</td>
+            <td>
+             
+                
+                    <!-- <button class="btn-info"  [disabled]="isDisabled(deal)" (click)="removeProductFromDeal(deal)">Remove</button>&nbsp;&nbsp;&nbsp; -->
+                
+            </td>
+  
+        </tr>
+    </tbody>
+  </table>
+  
+  
+  
+  
+  <div class="text-center">    <pagination-controls (pageChange)="p =$event"></pagination-controls>
+  </div>
+  </div>
+  
+  
+  <div *ngIf="!(displayProducts)">
+  <div class="card-deck">
+  <div class="card bg-light">
+    
+  
+  </div>
+  </div>
+  
+  <div class="card ">
+  <div class="text-left text-black">
+  
+    <h4>
+        <ins>{{deal.productDTO.brand+"-"+deal.productDTO.name}}</ins>
+    </h4>
+  </div><br>
+  <table class="table table-borderless text-black">
+    <tr>
+            <img class="card-img-top" width="100" height="100" [src]="'assets/resources/'+ deal.productDTO.productId+'.jpg'"
+            alt="Image Not Found" onError="this.src='assets/resources/404.png'">
+    </tr>
+    <tr>
+        <th>
+            <span class="text-muted">Product ID:</span>
+        </th>
+        <td>
+            {{deal.productDTO.productId}}
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <span class="text-muted">Product Name:</span>
+        </th>
+        <td>
+            {{deal.productDTO.name}}
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <span class="text-muted">Description:</span>
+        </th>
+        <td>
+            <dl class="text-justify">
+                {{deal.productDTO.description}}
+                <!-- <div *ngFor="let item of deal.description|productDescription">
+                    <dd>{{item}}</dd>
+                </div> -->
+            </dl>
+        </td>
+    </tr>
+    <tr>
+            <th>
+                <span class="text-muted">Category:</span>
+            </th>
+            <td>
+                {{deal.productDTO.category}}
+            </td>
+    </tr>
+        <tr>
+            <th>
+                <span class="text-muted">Brand:</span>
+            </th>
+            <td>
+                {{deal.productDTO.brand}}
+            </td>
+        </tr>
+        <tr>
+    <tr>
+        
+        <th>
+            <span class="text-muted">Price:</span>
+        </th>
+        <td>
+            <span class="success-message">
+  
+                <strong>Rs.{{deal.productDTO.price * (1-deal.productDTO.discount/100)|number:'1.2-2'}}</strong>
+  
+                <div class="clearfix"></div>
+                <span class="field-error-message">
+                    <del>Rs.{{deal.productDTO.price |number:'1.2-2'}}</del>
+                </span>
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <span class="text-muted">Discount:</span>
+        </th>
+        <td>
+            <strong>
+                <span class="success-message">{{deal.productDTO.discount/100 | percent}}</span>
+            </strong>
+        </td>
+    </tr>
+    <tr>
+            <th>
+                <span class="text-muted">Quantity:</span>
+            </th>
+            <td>
+                {{deal.productDTO.quantity}}
+            </td>
+        </tr>
+    <tr>
+  </table>
+  
+  
+  </div>
+    <div class="row">
+            <div class="col-md-2">
+                <a [routerLink]="" (click)="displayProducts=true" class="btn btn-dark">Back</a>
+            </div>
+  </div>
+  
+  </div>
